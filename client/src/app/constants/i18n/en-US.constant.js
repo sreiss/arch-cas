@@ -1,6 +1,10 @@
 'use strict'
 angular.module('archCas')
   .constant('i18nenUSConstant', {
-    FIELD_EMAIL: "Mail address",
-    FIELD_PASSWORD: "Password"
+    TITLE_PAGE:"CAS - Central Service Authentication",
+    TITLE_WELCOME: "Welcome on the",
+    TITLE_SERVICE: "central service authentication",
+    INPUT_USERNAME: "Username",
+    INPUT_PASSWORD: "Password",
+    INPUT_LOGIN: "Login"
   });

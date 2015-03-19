@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('archCas', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngRoute', 'ngMaterial', 'pascalprecht.translate'])
+angular.module('archCas', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngRoute', 'ngMaterial', 'pascalprecht.translate', 'base64'])
   .config(function ($translateProvider, $routeProvider, i18nfrFRConstant, i18nenUSConstant, $mdThemingProvider) {
     $mdThemingProvider.theme('default')
-      .primaryPalette('green')
-      .accentPalette('lime');
+      .primaryPalette('orange', { 'default' : '800'})
+      .accentPalette('green');
 
     $routeProvider
       .when('/', {
@@ -13,8 +13,6 @@ angular.module('archCas', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'n
       .otherwise({
         redirectTo: '/'
       });
-
-    console.log('app/index.js');
 
     $translateProvider
       .translations('fr', i18nfrFRConstant)

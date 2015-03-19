@@ -1,0 +1,29 @@
+#arch-cas
+{
+  background:white;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+  box-shadow: 0 0 22px rgba(0, 0, 0, 0.6);
+  margin-top: 20%;
+}
+
+.title
+{
+  text-align: center;
+  font-size: 30px;
+  text-transform: uppercase;
+  width:60%;
+  margin:0 auto;
+  margin-bottom: 30px;
+}
+
+.title_first
+{
+  color: rgba(255, 152, 0, 1);
+  font-weight: bold;
+}
+
+.login-button
+{
+  margin-top:30px;
+}
