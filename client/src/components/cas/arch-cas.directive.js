@@ -67,13 +67,10 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
             clientHash = $base64.encode(clientId + ':' + clientSecret);
           }
 
-          if($scope.username != '' && $scope.password != '')
+          archCasService.login($scope.username, $scope.password, clientHash, function(result)
           {
-            archCasService.login($scope.username, $scope.password, clientHash, function(result)
-            {
-              console.log(result);
-            });
-          }
+            console.log(result);
+          });
         }
       }
     };

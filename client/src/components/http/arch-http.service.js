@@ -39,16 +39,6 @@ angular.module('archCas')
             deferred.reject(err);
           });
         return deferred.promise;
-      },
-
-      setHeader: function(name, value)
-      {
-        $http.defaults.headers.common[name] = value;
-      },
-
-      unsetHeader: function(name, value)
-      {
-        delete $http.defaults.headers.commun[name];
       }
     };
   });

@@ -23,14 +23,27 @@ angular.module('archCas').factory('archCasService', function(archHttpService, $q
     {
       var data =
       {
-        "grant_type" : "password",
-        "username" : username,
-        "password" : password
+        grant_type : "password",
+        username : username,
+        password : password
       };
 
-      archHttpService.setHeader('Authorization', 'Basic ' + clientHash);
+      var config =
+      {
+        headers :
+        {
+          "Authorization" : 'Basic ' + clientHash,
+          "Content-Type" : "application/x-www-form-urlencoded"
+        },
+        transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+        }
+      }
 
-      archHttpService.post(apiUrl + '/token', data).then(function(result)
+      archHttpService.post(apiUrl + '/token', data, config).then(function(result)
       {
         callback(result);
       });
