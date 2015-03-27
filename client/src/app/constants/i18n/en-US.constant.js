@@ -6,5 +6,10 @@ angular.module('archCas')
     TITLE_SERVICE: "central service authentication",
     INPUT_USERNAME: "Username",
     INPUT_PASSWORD: "Password",
-    INPUT_LOGIN: "Login"
+    INPUT_LOGIN: "Login",
+    ERROR_INIT: "An error ocured while saving current client. Please, repeat the operation later.",
+    ERROR_LOGIN: "The couple username / password isn't associated with any user account.",
+    ALREADY_CONNECTED: "You are already connected.",
+    SUCCESS_LOGIN_REDIRECT: "Félicitations ! Vous vous êtes connecté avec succés.",
+    SUCCESS_LOGIN: "Félicitations ! Vous vous êtes connecté avec succés, vous allez être redirigé."
   });

@@ -5,7 +5,7 @@ angular.module('archCas').factory('archCasService', function(archHttpService, $q
   var apiUrl = httpConstant.apiUrl + '/oauth/oauth';
 
   return {
-    saveClient: function(callback)
+    saveClient: function()
     {
       var client =
       {
@@ -13,13 +13,21 @@ angular.module('archCas').factory('archCasService', function(archHttpService, $q
         "redirect_uri" : httpConstant.clientRedirectUri
       }
 
+      var deferred = $q.defer();
+
       archHttpService.post(apiUrl + '/client', client).then(function(result)
       {
-        callback(result);
+        deferred.resolve(result);
+      })
+      .catch(function(err)
+      {
+        deferred.reject(err.message);
       });
+
+      return deferred.promise;
     },
 
-    login: function(username, password, clientHash, callback)
+    login: function(username, password, clientHash)
     {
       var data =
       {
@@ -35,18 +43,30 @@ angular.module('archCas').factory('archCasService', function(archHttpService, $q
           "Authorization" : 'Basic ' + clientHash,
           "Content-Type" : "application/x-www-form-urlencoded"
         },
-        transformRequest: function(obj) {
+        transformRequest: function(obj)
+        {
           var str = [];
           for(var p in obj)
+          {
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          }
+
           return str.join("&");
         }
       }
 
+      var deferred = $q.defer();
+
       archHttpService.post(apiUrl + '/token', data, config).then(function(result)
       {
-        callback(result);
+        deferred.resolve(result);
+      })
+      .catch(function(err)
+      {
+        deferred.reject(err.message);
       });
+
+      return deferred.promise;
     }
   };
 });

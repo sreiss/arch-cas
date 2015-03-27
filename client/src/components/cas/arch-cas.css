@@ -27,3 +27,21 @@
 {
   margin-top:30px;
 }
+
+.ng-message-success
+{
+  background-color:#8BC34A;
+  padding:10px;
+  margin-bottom:10px;
+  color:white;
+}
+
+.ng-message-error
+{
+  background-color:#F44336;
+  padding:10px;
+  margin-bottom:10px;
+  color:white;
+}
+
+

@@ -9,44 +9,63 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
       {
         var init = function()
         {
-          // Get query parameters.
-          var params = $location.search();
-          var paramClientHash = params.clientHash || '';
-          var paramClientRedirectUri = params.clientRedirectUri || '';
+          // Check token in coockies.
+          var token = $cookieStore.get('token');
 
-          // If no given, check personal info in cookies.
-          if(paramClientHash.length == 0 || paramClientRedirectUri.length == 0)
+          if(!token)
           {
-            console.log('Params not found in query, check in cookies.');
+            console.log('INIT : Not connected');
 
-            var cookieClientId = $cookieStore.get('clientId') || '';
-            var cookieClientSecret = $cookieStore.get('clientSecret') || '';
-            var cookieClientRedirectUri = $cookieStore.get('clientRedirectUri') || '';
+            // Get query parameters.
+            var params = $location.search();
+            var paramClientHash = params.clientHash || '';
+            var paramClientRedirectUri = params.clientRedirectUri || '';
 
-            // If no saved in cookies, save new client.
-            if(cookieClientId.length == 0 || cookieClientSecret.length == 0 || cookieClientRedirectUri.length == 0)
+            // If no given, check personal info in cookies.
+            if(paramClientHash.length == 0 || paramClientRedirectUri.length == 0)
             {
-              console.log('Params not found in cookies, save new client.');
+              console.log('INIT : Params not found in query, check in cookies.');
 
-              archCasService.saveClient(function(result)
+              var cookieClientId = $cookieStore.get('clientId') || '';
+              var cookieClientSecret = $cookieStore.get('clientSecret') || '';
+              var cookieClientRedirectUri = $cookieStore.get('clientRedirectUri') || '';
+
+              // If no saved in cookies, save new client.
+              if(cookieClientId.length == 0 || cookieClientSecret.length == 0 || cookieClientRedirectUri.length == 0)
               {
-                console.log(result.message);
+                console.log('INIT : Params not found in cookies, save new client.');
 
-                $cookieStore.put('clientId', result.data.clientId);
-                $cookieStore.put('clientSecret', result.data.clientSecret);
-                $cookieStore.put('clientRedirectUri', result.data.clientRedirectUri);
+                archCasService.saveClient().then(function(result)
+                {
+                  $cookieStore.put('clientId', result.data.clientId);
+                  $cookieStore.put('clientSecret', result.data.clientSecret);
+                  $cookieStore.put('clientRedirectUri', result.data.clientRedirectUri);
 
-                console.log('Params saved in cookies.');
-              });
+                  console.log('INIT : Params saved in cookies.');
+                })
+                .catch(function(err)
+                {
+                  $scope.$error = {"init" : true, "login" : false};
+                  $scope.$success = {"alreadylogin" : false, "login" : false, "loginRedirect" : false};
+                });
+              }
+              else
+              {
+                console.log('INIT : Params found in cookies.');
+              }
             }
             else
             {
-              console.log('Params found in cookies.');
+              console.log('INIT : Params found in query.');
             }
           }
           else
           {
-            console.log('Params found in query.');
+            console.log('INIT : Already connected.');
+
+            $scope.alreadyLogged = true;
+            $scope.$error = {"init" : false, "login" : false};
+            $scope.$success = {"alreadylogin" : true, "login" : false, "loginRedirect" : false};
           }
         }();
 
@@ -58,19 +77,46 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           var clientRedirectUri = params.clientRedirectUri || '';
 
           // If no given, check personal info in cookies.
-          if(clientHash.length == 0 || clientRedirectUri.length == 0)
+          if(clientHash.length == 0)
           {
+            console.log('LOGIN : Params not found in query, check in cookies.');
+
             var clientId = $cookieStore.get('clientId');
             var clientSecret = $cookieStore.get('clientSecret');
             clientRedirectUri = $cookieStore.get('clientRedirectUri');
 
             clientHash = $base64.encode(clientId + ':' + clientSecret);
           }
-
-          archCasService.login($scope.username, $scope.password, clientHash, function(result)
+          else
           {
-            console.log(result);
-          });
+            console.log('LOGIN : Params found in query.');
+          }
+
+          if($scope.username.length > 0 && $scope.password.length > 0)
+          {
+            archCasService.login($scope.username, $scope.password, clientHash).then(function(result)
+            {
+              $cookieStore.put('token', result);
+              $scope.$error = {"init" : false, "login" : false};
+
+              if(clientRedirectUri.length > 0)
+              {
+                $scope.$success = {"alreadylogin" : false, "login" : false, "loginRedirect" : true};
+                window.setTimeout("location=(clientRedirectUri);",2000);
+              }
+              else
+              {
+                $scope.$success = {"alreadylogin" : false, "login" : true, "loginRedirect" : false};
+              }
+
+              console.log(result);
+            },
+            function(err)
+            {
+              $scope.$error = {"init" : false, "login" : true};
+              $scope.$success = {"alreadylogin" : false, "login" : false, "loginRedirect" : false};
+            });
+          }
         }
       }
     };

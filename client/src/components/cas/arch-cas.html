@@ -5,7 +5,18 @@
       <span>{{'TITLE_SERVICE' | translate}}</span>
     </div>
 
-    <form ng-submit="login()">
+    <div ng-messages="$error">
+      <div class="ng-message-error"ng-message="init">{{'ERROR_INIT' | translate}}</div>
+      <div class="ng-message-error" ng-message="login">{{'ERROR_LOGIN' | translate}}</div>
+    </div>
+
+    <div ng-messages="$success">
+      <div class="ng-message-success" ng-message="alreadylogin">{{'ALREADY_CONNECTED' | translate}}</div>
+      <div class="ng-message-success" ng-message="login">{{'SUCCESS_LOGIN' | translate}}</div>
+      <div class="ng-message-success" ng-message="loginRedirect">{{'SUCCESS_LOGIN_REDIRECT' | translate}}</div>
+    </div>
+
+    <form name="loginForm" ng-hide="alreadyLogged" ng-submit="login()">
       <md-input-container md-no-float>
         <label>{{'INPUT_USERNAME' | translate}}</label>
         <input name="username" type="email" ng-model="username">
@@ -20,5 +31,3 @@
     </form>
   </md-content>
 </div>
-
-
