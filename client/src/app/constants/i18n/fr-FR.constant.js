@@ -10,6 +10,6 @@ angular.module('archCas')
     ERROR_INIT: "Une erreur est survenue à l'enregistrement du client. Veuillez réiterer l'opération ultérieurement.",
     ERROR_LOGIN: "Le couple identifiant / mot de passe n'est associé à aucun compte utilisateur.",
     ALREADY_CONNECTED: "Vous êtes déjà identifié.",
-    SUCCESS_LOGIN_REDIRECT: "Félicitations ! Vous vous êtes connecté avec succés.",
-    SUCCESS_LOGIN: "Félicitations ! Vous vous êtes connecté avec succés, vous allez être redirigé."
+    SUCCESS_LOGIN: "Félicitations ! Vous vous êtes connecté avec succés.",
+    SUCCESS_LOGIN_REDIRECT: "Félicitations ! Vous vous êtes connecté avec succés, vous allez être redirigé."
   });

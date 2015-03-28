@@ -5,7 +5,7 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
     return {
       restrict: 'E',
       templateUrl: 'components/cas/arch-cas.html',
-      controller: function($scope, $location, $cookieStore, $base64)
+      controller: function($scope, $location, $cookieStore, $base64, $timeout)
       {
         var init = function()
         {
@@ -74,7 +74,7 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           // Get query parameters.
           var params = $location.search();
           var clientHash = params.clientHash || '';
-          var clientRedirectUri = params.clientRedirectUri || '';
+          var clientRedirectUriHash = params.clientRedirectUri || '';
 
           // If no given, check personal info in cookies.
           if(clientHash.length == 0)
@@ -83,8 +83,6 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
 
             var clientId = $cookieStore.get('clientId');
             var clientSecret = $cookieStore.get('clientSecret');
-            clientRedirectUri = $cookieStore.get('clientRedirectUri');
-
             clientHash = $base64.encode(clientId + ':' + clientSecret);
           }
           else
@@ -99,19 +97,25 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
               $cookieStore.put('token', result);
               $scope.$error = {"init" : false, "login" : false};
 
-              if(clientRedirectUri.length > 0)
+              if(clientRedirectUriHash)
               {
+                var clientRedirectUri = $base64.decode(clientRedirectUriHash);
+
                 $scope.$success = {"alreadylogin" : false, "login" : false, "loginRedirect" : true};
-                window.setTimeout("location=(clientRedirectUri);",2000);
+
+                $timeout(function()
+                {
+                  console.log(clientRedirectUri);
+                  $location.url(clientRedirectUri);
+                  //$location.path(clientRedirectUri);
+                }, 2000);
               }
               else
               {
                 $scope.$success = {"alreadylogin" : false, "login" : true, "loginRedirect" : false};
               }
-
-              console.log(result);
-            },
-            function(err)
+            })
+            .catch(function(err)
             {
               $scope.$error = {"init" : false, "login" : true};
               $scope.$success = {"alreadylogin" : false, "login" : false, "loginRedirect" : false};
