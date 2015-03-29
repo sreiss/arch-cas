@@ -18,8 +18,8 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
 
             // Get query parameters.
             var params = $location.search();
-            var paramClientHash = params.clientHash || '';
-            var paramClientRedirectUri = params.clientRedirectUri || '';
+            var paramClientHash = params.client || '';
+            var paramClientRedirectUri = params.return || '';
 
             // If no given, check personal info in cookies.
             if(paramClientHash.length == 0 || paramClientRedirectUri.length == 0)
@@ -73,8 +73,8 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
         {
           // Get query parameters.
           var params = $location.search();
-          var clientHash = params.clientHash || '';
-          var clientRedirectUriHash = params.clientRedirectUri || '';
+          var clientHash = params.client || '';
+          var clientRedirectUriHash = params.return || '';
 
           // If no given, check personal info in cookies.
           if(clientHash.length == 0)
@@ -106,8 +106,7 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
                 $timeout(function()
                 {
                   console.log(clientRedirectUri);
-                  $location.url(clientRedirectUri);
-                  //$location.path(clientRedirectUri);
+                  window.location.href = clientRedirectUri;
                 }, 2000);
               }
               else
