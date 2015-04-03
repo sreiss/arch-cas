@@ -67,6 +67,22 @@ angular.module('archCas').factory('archCasService', function(archHttpService, $q
       });
 
       return deferred.promise;
+    },
+
+    getUser: function(username, password)
+    {
+      var deferred = $q.defer();
+
+      archHttpService.get(apiUrl + '/user/' + username + '/' + password).then(function(result)
+      {
+        deferred.resolve(result);
+      })
+      .catch(function(err)
+      {
+        deferred.reject(err.message);
+      });
+
+      return deferred.promise;
     }
   };
 });

@@ -12,7 +12,7 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           // Check token in coockies.
           var token = $cookieStore.get('token');
 
-          if(!token)
+          if(!token || isExpired(token))
           {
             console.log('INIT : Not connected');
 
@@ -69,6 +69,20 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           }
         }();
 
+        function isExpired(token)
+        {
+          var now = new Date();
+
+          if(now.getTime() > token.expired_at)
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        };
+
         $scope.login = function()
         {
           // Get query parameters.
@@ -92,27 +106,40 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
 
           if($scope.username.length > 0 && $scope.password.length > 0)
           {
-            archCasService.login($scope.username, $scope.password, clientHash).then(function(result)
+            archCasService.login($scope.username, $scope.password, clientHash).then(function(token)
             {
-              $cookieStore.put('token', result);
-              $scope.$error = {"init" : false, "login" : false};
+              return token;
+            })
+            .then(function(token)
+            {
+              var now = new Date();
+              now.setSeconds(now.getSeconds() + token.expires_in);
+              token.expired_at = now.getTime();
 
-              if(clientRedirectUriHash)
+              archCasService.getUser($scope.username, $scope.password).then(function(user)
               {
-                var clientRedirectUri = $base64.decode(clientRedirectUriHash);
+                token.user = user.data;
 
-                $scope.$success = {"alreadylogin" : false, "login" : false, "loginRedirect" : true};
+                $cookieStore.put('token', token);
+                $scope.$error = {"init" : false, "login" : false};
 
-                $timeout(function()
+                if(clientRedirectUriHash)
                 {
-                  console.log(clientRedirectUri);
-                  window.location.href = clientRedirectUri;
-                }, 2000);
-              }
-              else
-              {
-                $scope.$success = {"alreadylogin" : false, "login" : true, "loginRedirect" : false};
-              }
+                  var clientRedirectUri = $base64.decode(clientRedirectUriHash);
+
+                  $scope.$success = {"alreadylogin" : false, "login" : false, "loginRedirect" : true};
+
+                  $timeout(function()
+                  {
+                    console.log(clientRedirectUri);
+                    window.location.href = clientRedirectUri;
+                  }, 2000);
+                 }
+                 else
+                 {
+                    $scope.$success = {"alreadylogin" : false, "login" : true, "loginRedirect" : false};
+                 }
+              });
             })
             .catch(function(err)
             {
