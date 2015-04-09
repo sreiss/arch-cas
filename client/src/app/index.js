@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('archCas', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngRoute', 'ngMaterial', 'pascalprecht.translate', 'base64'])
+angular.module('archCas', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngRoute', 'ngMaterial', 'angular-md5', 'pascalprecht.translate', 'base64'])
   .config(function ($translateProvider, $routeProvider, i18nfrFRConstant, i18nenUSConstant, $mdThemingProvider) {
     $mdThemingProvider.theme('default')
       .primaryPalette('orange', { 'default' : '800'})

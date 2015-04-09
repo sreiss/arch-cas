@@ -5,7 +5,7 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
     return {
       restrict: 'E',
       templateUrl: 'components/cas/arch-cas.html',
-      controller: function($scope, $location, $cookieStore, $base64, $timeout)
+      controller: function($scope, $location, $cookieStore, $base64, $timeout, md5)
       {
         var init = function()
         {
@@ -106,6 +106,8 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
 
           if($scope.username.length > 0 && $scope.password.length > 0)
           {
+            $scope.password = md5.createHash($scope.password);
+
             archCasService.login($scope.username, $scope.password, clientHash).then(function(token)
             {
               return token;
