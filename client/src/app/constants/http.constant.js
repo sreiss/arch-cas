@@ -1,7 +1,8 @@
 'use strict'
 angular.module('archCas').constant('httpConstant',
 {
-  apiUrl: 'http://localhost:3008',
+  apiUrl: 'http://localhost:3021',
+
   clientName: 'ARCH-CAS',
-  clientRedirectUri : 'http://localhost:3000'
+  clientRedirectUri : 'http://localhost:3010'
 });
