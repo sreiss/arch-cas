@@ -28,9 +28,5 @@ node_modules
 .lock-wscript
 .idea
 
-dist/
-.sass-cache/
 .tmp/
-.idea
-.idea/*
-.DS_Store
+bower_components/

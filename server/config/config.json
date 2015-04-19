@@ -1,0 +1,14 @@
+{
+  "http":
+  {
+    "port": "3020"
+  },
+  "db":
+  {
+    "url": "mongodb://localhost/archCas"
+  },
+  "security":
+  {
+    "tokenLife" : 3600
+  }
+}
