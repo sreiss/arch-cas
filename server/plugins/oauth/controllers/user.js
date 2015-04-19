@@ -37,7 +37,7 @@ module.exports = function(userService)
             // Get user.
             userService.getUser(accesstoken).then(function(result)
             {
-                res.status(201).json({"count" : (result ? 1 : 0), "data" : result});
+                res.status(result ? 200 : 204).json({"count" : (result ? 1 : 0), "data" : result});
             })
             .catch(function(err)
             {
@@ -49,12 +49,12 @@ module.exports = function(userService)
         deleteUser: function(req, res)
         {
             // Get user id.
-            var id = req.params.oauthUserId;
+            var id = req.params.id;
 
             // Delete user.
             userService.deleteUser(id).then(function(result)
             {
-                res.status(result.length > 0 ? 200 : 204).json({"count" : result.length, "data" : result});
+                res.status(result ? 200 : 204).json({"count" : result ? 0 : 1, "data" : result});
             })
             .catch(function(err)
             {

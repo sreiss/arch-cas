@@ -130,7 +130,7 @@ module.exports = function(User, Client, userService, signuptypeService, accessto
         {
             var deferred = Q.defer();
 
-            User.findOneAndRemove({oauth:id}).exec(function(err, result)
+            User.findOneAndRemove({_id:id}).exec(function(err, result)
             {
                 if(err)
                 {

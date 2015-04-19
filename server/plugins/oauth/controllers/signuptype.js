@@ -20,7 +20,7 @@ module.exports = function(signuptypeService)
             // Get users by signup type.
             signuptypeService.getUsers(signuptype).then(function(result)
             {
-                res.status(201).json({"count" : (result ? 1 : 0), "data" : result});
+                res.status(result ? 200 : 204).json({"count" : (result ? result.length : 0), "data" : result});
             })
             .catch(function(err)
             {

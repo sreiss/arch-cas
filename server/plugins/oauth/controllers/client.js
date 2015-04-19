@@ -37,7 +37,7 @@ module.exports = function(clientService)
             // Get user.
             clientService.getClient(clientId).then(function(result)
             {
-                res.status(201).json({"count" : (result ? 1 : 0), "data" : result});
+                res.status(result ? 200 : 204).json({"count" : (result ? 1 : 0), "data" : result});
             })
             .catch(function(err)
             {
