@@ -98,7 +98,7 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           var clientRedirectUriHash = params.return || '';
 
           // If no given, check personal info in cookies.
-          if(clientHash)
+          if(!clientHash)
           {
             console.log('LOGIN : Params not found in query, check in cookies.');
 
