@@ -73,9 +73,16 @@ angular.module('archCas').factory('archCasService', function(archHttpService, $q
     {
       var deferred = $q.defer();
 
-      archHttpService.get(apiUrl + '/user/' + accesstoken).then(function(result)
+      archHttpService.get(apiUrl + '/accesstoken/' + accesstoken).then(function(accesstoken)
       {
-        deferred.resolve(result);
+        return accesstoken;
+      })
+      .then(function(accesstoken)
+      {
+        archHttpService.get(apiUrl + '/user/' + accesstoken.data.userId).then(function(user)
+        {
+          deferred.resolve(user);
+        })
       })
       .catch(function(err)
       {

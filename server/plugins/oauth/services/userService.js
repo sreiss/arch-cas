@@ -87,39 +87,21 @@ module.exports = function(User, Client, userService, signuptypeService, accessto
         },
 
         /** Get user. */
-        getUser: function(accesstoken)
+        getUser: function(id)
         {
             var deferred = Q.defer();
 
             // Get access token.
-            accesstokenService.getAccesstoken(accesstoken).then(function(accesstoken)
+            User.findOne({_id: id}).populate('signuptype').exec(function (err, user)
             {
-                if(accesstoken)
+                if(err)
                 {
-                    return accesstoken;
+                    deferred.reject(err);
                 }
                 else
                 {
-                    throw new Error("There's no access token matching this token.");
+                    deferred.resolve(user);
                 }
-            })
-            .then(function(accesstoken)
-            {
-                User.findOne({_id: accesstoken.userId}).populate('signuptype').exec(function (err, user)
-                {
-                    if(err)
-                    {
-                        deferred.reject(err);
-                    }
-                    else
-                    {
-                        deferred.resolve(user);
-                    }
-                });
-            })
-            .catch(function(err)
-            {
-                deferred.reject(err)
             });
 
             return deferred.promise;

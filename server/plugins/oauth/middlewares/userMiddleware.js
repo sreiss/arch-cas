@@ -23,7 +23,7 @@ module.exports = function() {
             next();
         },
 
-        checkUser: function(req, res, next)
+        checkSaveUser: function(req, res, next)
         {
             // Get user data.
             var userData = req.body;
@@ -54,6 +54,35 @@ module.exports = function() {
             if(!validator.isLength(userSignupTypeName, 3))
             {
                 throw new ArchParameterError("User signup type must contain at least 3 chars.")
+            }
+
+            next();
+        },
+
+        checkUpdateUser: function(req, res, next)
+        {
+            // Get user data.
+            var userData = req.body.user;
+
+            // Check user first name (length >= 3).
+            var userFirstName = userData.fname || '';
+            if(!validator.isLength(userFirstName, 3))
+            {
+                throw new ArchParameterError("User first name must contain at least 3 chars.")
+            }
+
+            // Check user first name (length >= 3).
+            var userLastName = userData.lname || '';
+            if(!validator.isLength(userLastName, 3))
+            {
+                throw new ArchParameterError("User last name must contain at least 3 chars.")
+            }
+
+            // Check user email.
+            var userEmail = userData.email || '';
+            if(!validator.isEmail(userEmail))
+            {
+                throw new ArchParameterError("User email isn't a valid mail address.")
             }
 
             next();
