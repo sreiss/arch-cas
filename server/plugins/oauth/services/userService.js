@@ -162,27 +162,30 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
                 debug:true
             }));
 
-            console.log(user);
-            console.log(password);
-
             var mailOptions =
             {
                 from: config.get('mail:noreply'),
                 // to: oauthUser.email,
                 to: "maxime@rauch.fr",
-                subject: 'ASCPA - Inscription réussie ✔', // Subject line
-                html: user.fname + ' ' + user.lname + '<b>Mot de passe : ' + password + '</b>' // html body
+                subject: 'CAS - Inscription réussie ✔',
+                html:   'Bonjour ' + user.fname + ' ' + user.lname + ',<br><br>' +
+                        'Votre compte a été créé avec succés.<br>' +
+                        'Veuillez trouver ci-dessous le récapitulatif de vos identifiants.<br><br>' +
+                        '- Identifiant : ' + user.username + '<br>' +
+                        '- Mot de passe : ' + password + '<br><br>' +
+                        "L'équipe vous remercie et vous souhaite une bonne visite.<br>" +
+                        '__<br>Ceci est un message automatique, merci de ne pas y répondre.'
             };
 
             transporter.sendMail(mailOptions, function(error, info)
             {
                 if(error)
                 {
-                    console.log(error);
+                    console.log("Message automatique d'inscription " + user.username + "/" + password + " envoyé avec succés.");
                 }
                 else
                 {
-                    console.log(info);
+                    console.log("Message automatique d'inscription " + user.username + "/" + password + " non envoyé.");
                 }
             });
         }
