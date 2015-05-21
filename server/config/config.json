@@ -10,5 +10,11 @@
   "security":
   {
     "tokenLife" : 3600
+  },
+  "mail":
+  {
+    "username": "acrobattmailer@gmail.com",
+    "password": "iutrs67400",
+    "noreply": "CAS Administration <no-reply@archcas.fr>"
   }
 }

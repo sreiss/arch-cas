@@ -7,8 +7,10 @@
 
 var Q = require('q');
 var crypto = require('crypto');
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 
-module.exports = function(User, Client, userService, signuptypeService) {
+module.exports = function(User, Client, userService, signuptypeService, config) {
     return {
         /** Save user. */
         saveUser: function(userData)
@@ -38,8 +40,9 @@ module.exports = function(User, Client, userService, signuptypeService) {
                 user.lname = userData.lname;
                 user.email = userData.email;
                 user.signuptype = signuptype._id;
-                user.password = userService.generateRandomPassword();
-                user.password = crypto.createHash('md5').update(user.password).digest("hex");
+
+                var password = userService.generateRandomPassword();
+                user.password = crypto.createHash('md5').update(password).digest("hex");
 
                 user.save(function(err, user)
                 {
@@ -49,6 +52,8 @@ module.exports = function(User, Client, userService, signuptypeService) {
                     }
                     else
                     {
+                        userService.sendMail(user, password);
+
                         deferred.resolve(user);
                     }
                 });
@@ -140,6 +145,46 @@ module.exports = function(User, Client, userService, signuptypeService) {
             }
 
             return text;
+        },
+
+        /** Send Mail. */
+        sendMail: function(user, password)
+        {
+            var transporter = nodemailer.createTransport(smtpTransport(
+            {
+                service: "Gmail", // sets automatically host, port and connection security settings
+                auth:
+                {
+                    user: config.get('mail:username'),
+                    pass: config.get('mail:password')
+                },
+                tls: {rejectUnauthorized: false},
+                debug:true
+            }));
+
+            console.log(user);
+            console.log(password);
+
+            var mailOptions =
+            {
+                from: config.get('mail:noreply'),
+                // to: oauthUser.email,
+                to: "maxime@rauch.fr",
+                subject: 'ASCPA - Inscription réussie ✔', // Subject line
+                html: user.fname + ' ' + user.lname + '<b>Mot de passe : ' + password + '</b>' // html body
+            };
+
+            transporter.sendMail(mailOptions, function(error, info)
+            {
+                if(error)
+                {
+                    console.log(error);
+                }
+                else
+                {
+                    console.log(info);
+                }
+            });
         }
     };
 };
