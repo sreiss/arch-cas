@@ -1,10 +1,12 @@
 var mongoose = require('mongoose'),
+    Q = require('q'),
     model = module.exports;
 
 var AccesstokenModel = mongoose.model('Accesstoken'),
     RefreshtokenModel = mongoose.model('Refreshtoken'),
     ClientModel = mongoose.model('Client'),
     UserModel = mongoose.model('User');
+    SignuptypeModel = mongoose.model('Signuptype');
 
 // OAuth Server Callback - getAccessToken.
 model.getAccessToken = function (bearerToken, callback)
@@ -135,3 +137,56 @@ model.getRefreshToken = function (refreshToken, callback)
 
     RefreshtokenModel.findOne({ refreshToken: refreshToken }, callback);
 };
+
+// Generate Superadmin Signuptype.
+SignuptypeModel.findOne({name : "SUPERADMIN"}, function(err, signuptype)
+{
+    if(!signuptype)
+    {
+        var signuptype = new SignuptypeModel();
+        signuptype.name = "SUPERADMIN";
+        signuptype.description = "Group of Superadmin";
+        signuptype.isPublic = true;
+
+        signuptype.save(function(err, signuptype)
+        {
+            console.log('ARCHCAS : Superadmin Signuptype has been created');
+            createSuperadminUSer(signuptype);
+        });
+    }
+    else
+    {
+        console.log('ARCHCAS : Superadmin Signuptype already exists');
+        createSuperadminUSer(signuptype);
+    }
+});
+
+// Generate Superadmin User.
+function createSuperadminUSer(signuptype)
+{
+    UserModel.findOne({username : "superadmin@archcas.fr"}, function(err, user)
+    {
+        if(!user)
+        {
+            var user = new UserModel();
+            user.username = "superadmin@archcas.fr";
+            user.password = "17c4520f6cfd1ab53d8745e84681eb49"; // superadmin
+            user.fname = "Superadmin";
+            user.lname = "ArchCas";
+            user.email = "superadmin@archcas.fr";
+            user.signuptype = signuptype._id;
+
+            user.save(function(err, user)
+            {
+                if(user)
+                {
+                    console.log('ARCHCAS : Superadmin User has been created');
+                }
+            });
+        }
+        else
+        {
+            console.log('ARCHCAS : Superadmin User already exists');
+        }
+    });
+}
