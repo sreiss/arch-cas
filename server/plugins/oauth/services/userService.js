@@ -8,7 +8,7 @@
 var Q = require('q');
 var crypto = require('crypto');
 
-module.exports = function(User, Client, userService, signuptypeService, accesstokenService) {
+module.exports = function(User, Client, userService, signuptypeService) {
     return {
         /** Save user. */
         saveUser: function(userData)
@@ -34,11 +34,12 @@ module.exports = function(User, Client, userService, signuptypeService, accessto
             {
                 var user = new User();
                 user.username = userData.email;
-                user.password = 'b238c13e822536cad3ac57a2280fbf45';
                 user.fname = userData.fname;
                 user.lname = userData.lname;
                 user.email = userData.email;
                 user.signuptype = signuptype._id;
+                user.password = userService.generateRandomPassword();
+                user.password = crypto.createHash('md5').update(user.password).digest("hex");
 
                 user.save(function(err, user)
                 {
@@ -125,6 +126,20 @@ module.exports = function(User, Client, userService, signuptypeService, accessto
             });
 
             return deferred.promise;
+        },
+
+        /** Generate random password. */
+        generateRandomPassword: function()
+        {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for( var i=0; i < 6; i++ )
+            {
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+
+            return text;
         }
     };
 };
