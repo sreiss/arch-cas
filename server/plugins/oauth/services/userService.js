@@ -165,8 +165,7 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
             var mailOptions =
             {
                 from: config.get('mail:noreply'),
-                // to: oauthUser.email,
-                to: "maxime@rauch.fr",
+                to: user.email,
                 subject: 'CAS - Inscription réussie ✔',
                 html:   'Bonjour ' + user.fname + ' ' + user.lname + ',<br><br>' +
                         'Votre compte a été créé avec succés.<br>' +
