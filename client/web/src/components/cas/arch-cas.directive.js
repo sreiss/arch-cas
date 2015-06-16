@@ -34,9 +34,9 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
             {
               console.log('INIT : Params not found in query, check in cookies.');
 
-              var cookieClientId = $cookieStore.get('clientId') || '';
-              var cookieClientSecret = $cookieStore.get('clientSecret') || '';
-              var cookieClientRedirectUri = $cookieStore.get('clientRedirectUri') || '';
+              var cookieClientId = $cookieStore.get('CAS_clientId') || '';
+              var cookieClientSecret = $cookieStore.get('CAS_clientSecret') || '';
+              var cookieClientRedirectUri = $cookieStore.get('CAS_clientRedirectUri') || '';
 
               // If no saved in cookies, save new client.
               if(cookieClientId.length == 0 || cookieClientSecret.length == 0 || cookieClientRedirectUri.length == 0)
@@ -45,9 +45,9 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
 
                 archCasService.saveClient().then(function(result)
                 {
-                  $cookieStore.put('clientId', result.data.clientId);
-                  $cookieStore.put('clientSecret', result.data.clientSecret);
-                  $cookieStore.put('clientRedirectUri', result.data.clientRedirectUri);
+                  $cookieStore.put('CAS_clientId', result.data.clientId);
+                  $cookieStore.put('CAS_clientSecret', result.data.clientSecret);
+                  $cookieStore.put('CAS_clientRedirectUri', result.data.clientRedirectUri);
 
                   console.log('INIT : Params saved in cookies.');
                 })
@@ -109,8 +109,8 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           {
             console.log('LOGIN : Params not found in query, check in cookies.');
 
-            var clientId = $cookieStore.get('clientId');
-            var clientSecret = $cookieStore.get('clientSecret');
+            var clientId = $cookieStore.get('CAS_clientId');
+            var clientSecret = $cookieStore.get('CAS_clientSecret');
             clientHash = $base64.encode(clientId + ':' + clientSecret);
           }
           else
