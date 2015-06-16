@@ -13,15 +13,14 @@ exports.attach = function(opts)
         debug: true
     });
 
-    // Temporary patch.
     app.options('/oauth/token', function(req, res)
     {
         var headers = {};
 
         headers["Access-Control-Allow-Origin"] = "*";
-        headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS";
+        headers["Access-Control-Allow-Methods"] = "POST, PUT, DELETE, GET, OPTIONS";
         headers["Access-Control-Allow-Credentials"] = false;
-        headers["Access-Control-Max-Age"] = '86400'; // 24 hours
+        headers["Access-Control-Max-Age"] = '86400';
         headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization";
 
         res.writeHead(200, headers);

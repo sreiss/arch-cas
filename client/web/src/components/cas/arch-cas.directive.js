@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 angular.module('archCas').directive('archCas', function (archCasService, $mdToast, $translate, $window)
 {
@@ -9,6 +9,15 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
       {
         var init = function()
         {
+          // Get query params.
+          var params = $location.search();
+
+          // Delete token.
+          if(params.logout)
+          {
+            $cookieStore.remove('token');
+          }
+
           // Check token in coockies.
           var token = $cookieStore.get('token');
 
@@ -17,7 +26,6 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
             console.log('INIT : Not connected');
 
             // Get query parameters.
-            var params = $location.search();
             var paramClientHash = params.client || '';
             var paramClientRedirectUri = params.return || '';
 
@@ -62,7 +70,6 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           else
           {
             console.log('INIT : Already connected.');
-
             $scope.alreadyLogged = true;
             $scope.$error = {"init" : false, "login" : false};
             $scope.$success = {"alreadylogin" : true, "login" : false, "loginRedirect" : false};
@@ -82,13 +89,13 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           {
             return false;
           }
-        };
+        }
 
         $scope.logout = function()
         {
           $cookieStore.remove('token');
           window.location.reload();
-        }
+        };
 
         $scope.login = function()
         {
@@ -126,20 +133,21 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
               archCasService.getUser(token.access_token).then(function(user)
               {
                 token.user = user.data;
-
                 $cookieStore.put('token', token);
+
+                //Métode pour le cookie
+                var tokenParam = btoa(encodeURIComponent(angular.toJson(token)));
                 $scope.alreadyLogged = true;
                 $scope.$error = {"init" : false, "login" : false};
 
                 if(clientRedirectUriHash)
                 {
-                  var clientRedirectUri = $base64.decode(clientRedirectUriHash);
-
+                  var clientRedirectUri = atob(clientRedirectUriHash);
                   $scope.$success = {"alreadylogin" : false, "login" : false, "loginRedirect" : true};
 
                   $timeout(function()
                   {
-                     window.location.href = clientRedirectUri;
+                     window.location.href = clientRedirectUri + '/#/token/' + tokenParam;
                   }, 2000);
                  }
                  else
