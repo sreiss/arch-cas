@@ -71,10 +71,6 @@ module.exports = function(User, Signuptype) {
                     {
                         deferred.resolve(users);
                     }
-                })
-                .catch(function(err)
-                {
-                    deferred.reject(err);
                 });
             })
             .catch(function(err)
