@@ -31,7 +31,8 @@ exports.attach = function(opts)
         if (allowedOrigins.indexOf(origin) > -1)
         {
             res.header('Access-Control-Allow-Origin', origin);
-            res.header('Access-Control-Allow-Methods', 'OPTIONS,GET,PUT,POST,DELETE');
+            res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
+            res.header('Access-Control-Allow-Credentials', true);
             res.header('Access-Control-Allow-Headers', 'Content-Type');
         }
 
