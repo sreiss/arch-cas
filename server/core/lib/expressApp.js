@@ -37,21 +37,6 @@ exports.attach = function(opts)
 
         return next();
     });
-
-    // Allow OPTIONS requests.
-    expressApp.options('*', function(req, res)
-    {
-        var headers = {};
-
-        headers["Access-Control-Allow-Origin"] = "*";
-        headers["Access-Control-Allow-Methods"] = "POST, PUT, DELETE, GET, OPTIONS";
-        headers["Access-Control-Allow-Credentials"] = false;
-        headers["Access-Control-Max-Age"] = '86400';
-        headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization";
-
-        res.writeHead(200, headers);
-        res.end();
-    });
 };
 
 exports.init = function (done)
