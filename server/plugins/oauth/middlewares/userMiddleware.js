@@ -42,13 +42,6 @@ module.exports = function() {
                 throw new ArchParameterError("User last name must contain at least 3 chars.")
             }
 
-            // Check user email.
-            var userEmail = userData.email || '';
-            if(!validator.isEmail(userEmail))
-            {
-                throw new ArchParameterError("User email isn't a valid mail address.")
-            }
-
             // Check user signuptype.
             var userSignupTypeName = userData.signuptype.name || {};
             if(!validator.isLength(userSignupTypeName, 3))
@@ -76,13 +69,6 @@ module.exports = function() {
             if(!validator.isLength(userLastName, 3))
             {
                 throw new ArchParameterError("User last name must contain at least 3 chars.")
-            }
-
-            // Check user email.
-            var userEmail = userData.email || '';
-            if(!validator.isEmail(userEmail))
-            {
-                throw new ArchParameterError("User email isn't a valid mail address.")
             }
 
             next();
