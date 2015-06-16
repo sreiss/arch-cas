@@ -69,10 +69,17 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           }
           else
           {
-            console.log('INIT : Already connected.');
-            $scope.alreadyLogged = true;
-            $scope.$error = {"init" : false, "login" : false};
-            $scope.$success = {"alreadylogin" : true, "login" : false, "loginRedirect" : false};
+            if(params.return)
+            {
+              window.location.href = atob(params.return) + '/#/token/' + btoa(encodeURIComponent(angular.toJson(token)));
+            }
+            else
+            {
+              console.log('INIT : Already connected.');
+              $scope.alreadyLogged = true;
+              $scope.$error = {"init" : false, "login" : false};
+              $scope.$success = {"alreadylogin" : true, "login" : false, "loginRedirect" : false};
+            }
           }
         }();
 
