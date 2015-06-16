@@ -28,12 +28,17 @@ exports.attach = function(opts)
     {
         var origin = req.headers.origin;
 
-        if (allowedOrigins.indexOf(origin) > -1)
+        if(allowedOrigins.indexOf(origin) > -1)
         {
             res.header('Access-Control-Allow-Origin', origin);
-            res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
-            res.header('Access-Control-Allow-Credentials', true);
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
+            res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization');
+
+            //headers["Access-Control-Allow-Credentials"] = false;
+            // headers["Access-Control-Max-Age"] = '86400';
+
+                //    res.writeHead(200, headers);
+                //    res.end();
         }
 
         return next();
