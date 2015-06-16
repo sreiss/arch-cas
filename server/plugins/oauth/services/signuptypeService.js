@@ -55,20 +55,31 @@ module.exports = function(User, Signuptype) {
         },
 
         /** Get users. */
-        getUsers: function(signuptype)
+        getUsers: function(signuptypeName)
         {
             var deferred = Q.defer();
 
-            User.find({'signuptype.name' : signuptype}).populate('signuptype').exec(function (err, users)
+            this.getSignuptype(signuptypeName).then(function(signuptype)
             {
-                if(err)
+                User.find({'signuptype' : signuptype._id}).populate('signuptype').exec(function (err, users)
+                {
+                    if(err)
+                    {
+                        deferred.reject(err);
+                    }
+                    else
+                    {
+                        deferred.resolve(users);
+                    }
+                })
+                .catch(function(err)
                 {
                     deferred.reject(err);
-                }
-                else
-                {
-                    deferred.resolve(users);
-                }
+                });
+            })
+            .catch(function(err)
+            {
+                deferred.reject(err);
             });
 
             return deferred.promise;
