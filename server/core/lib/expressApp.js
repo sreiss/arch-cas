@@ -11,6 +11,7 @@ exports.attach = function(opts)
 {
     var app = this;
     var expressApp = app.arch.expressApp = express();
+    var config = app.arch.config;
 
     expressApp.set('views', path.join(__dirname, '..', 'views'));
     expressApp.set('view engine', 'jade');
