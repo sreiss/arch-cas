@@ -59,7 +59,7 @@ module.exports = function(User, Signuptype) {
         {
             var deferred = Q.defer();
 
-            User.find().populate('signuptype', null, {'signuptype.name' : signuptype}).exec(function (err, users)
+            User.find({'signuptype.name' : signuptype}).populate('signuptype').exec(function (err, users)
             {
                 if(err)
                 {
