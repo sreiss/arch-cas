@@ -17,19 +17,28 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
         {
             var deferred = Q.defer();
 
-            // Get signup type.
-            signuptypeService.getSignuptype(userData.signuptype.name).then(function(signuptype)
+            this.getUserByEmail(userData.email).then(function(user)
             {
-                if(signuptype)
+                if(user)
                 {
-                    return signuptype;
+                    deferred.reject('EMAIL_ALREADY_EXISTS');
                 }
                 else
                 {
-                    signuptypeService.saveSignuptype(userData.signuptype).then(function(signuptype)
+                    return signuptypeService.getSignuptype(userData.signuptype.name).then(function(signuptype)
                     {
-                        return signuptype;
-                    });
+                        if(signuptype)
+                        {
+                            return signuptype;
+                        }
+                        else
+                        {
+                            return signuptypeService.saveSignuptype(userData.signuptype).then(function(signuptype)
+                            {
+                                return signuptype;
+                            });
+                        }
+                    })
                 }
             })
             .then(function(signuptype)
@@ -99,6 +108,27 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
 
             // Get access token.
             User.findOne({_id: id}).populate('signuptype').exec(function (err, user)
+            {
+                if(err)
+                {
+                    deferred.reject(err);
+                }
+                else
+                {
+                    deferred.resolve(user);
+                }
+            });
+
+            return deferred.promise;
+        },
+
+        /** Get user by mail address. */
+        getUserByEmail: function(email)
+        {
+            var deferred = Q.defer();
+
+            // Get access token.
+            User.findOne({email: email}).exec(function (err, user)
             {
                 if(err)
                 {
