@@ -21,7 +21,7 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
             {
                 if(user)
                 {
-                    deferred.reject('EMAIL_ALREADY_EXISTS');
+                    deferred.reject(new Error('EMAIL_ALREADY_EXISTS'));
                 }
                 else
                 {
