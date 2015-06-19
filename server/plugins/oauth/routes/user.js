@@ -7,6 +7,9 @@
 
 module.exports = function(userController, userRouter, userMiddleware)
 {
+    userRouter.route('/forget')
+        .post(userController.resetPassword);
+
     userRouter.route('/')
         .post(userMiddleware.checkSaveUser)
         .post(userController.saveUser)

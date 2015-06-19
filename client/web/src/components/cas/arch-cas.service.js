@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 angular.module('archCas').factory('archCasService', function(archHttpService, $q, httpConstant)
 {
@@ -11,7 +11,7 @@ angular.module('archCas').factory('archCasService', function(archHttpService, $q
       {
         "name" : httpConstant.clientName,
         "redirect_uri" : httpConstant.clientRedirectUri
-      }
+      };
 
       var deferred = $q.defer();
 

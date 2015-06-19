@@ -163,6 +163,36 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
             return deferred.promise;
         },
 
+        resetPassword: function(email){
+
+            var deferred = Q.defer();
+
+            this.getUserByEmail(email).then(function(user)
+            {
+                if(user)
+                {
+                    var password = userService.generateRandomPassword();
+                    user.password = crypto.createHash('md5').update(password).digest("hex");
+                    userService.updateUser(user);
+                    userService.sendMailReset(user, password);
+                    deferred.resolve(user);
+                }
+                else
+                {
+                    var err = {};
+                    err.message = "Fail to find username";
+                    deferred.reject(err);
+                }
+            })
+            .catch(function(err)
+            {
+                deferred.reject(err)
+            });
+
+            return deferred.promise;
+
+        },
+
         /** Generate random password. */
         generateRandomPassword: function()
         {
@@ -217,6 +247,48 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
                     console.log("Message automatique d'inscription " + user.username + "/" + password + " non envoyé.");
                 }
             });
+        },
+
+        /** Send Mail. */
+        sendMailReset: function(user, password)
+        {
+            var transporter = nodemailer.createTransport(smtpTransport(
+                {
+                    service: "Gmail", // sets automatically host, port and connection security settings
+                    auth:
+                    {
+                        user: config.get('mail:username'),
+                        pass: config.get('mail:password')
+                    },
+                    tls: {rejectUnauthorized: false},
+                    debug:true
+                }));
+
+            var mailOptions =
+            {
+                from: config.get('mail:noreply'),
+                to: user.email,
+                subject: 'CAS - Nouveau mot de passe',
+                html:   'Bonjour ' + user.fname + ' ' + user.lname + ',<br><br>' +
+                'Veuillez trouver ci-dessous le récapitulatif de vos nouveaux identifiants.<br><br>' +
+                '- Identifiant : ' + user.username + '<br>' +
+                '- Mot de passe : ' + password + '<br><br>' +
+                "L'équipe vous remercie et vous souhaite une bonne visite.<br>" +
+                '__<br>Ceci est un message automatique, merci de ne pas y répondre.'
+            };
+
+            transporter.sendMail(mailOptions, function(error, info)
+            {
+                if(error)
+                {
+                    console.log("Message automatique de reset " + user.username + "/" + password + " envoyé avec succés.");
+                }
+                else
+                {
+                    console.log("Message automatique de reset " + user.username + "/" + password + " non envoyé.");
+                }
+            });
         }
+
     };
 };

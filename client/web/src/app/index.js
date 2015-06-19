@@ -4,11 +4,14 @@ angular.module('archCas', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'n
   .config(function ($translateProvider, $routeProvider, i18nfrFRConstant, i18nenUSConstant, $mdThemingProvider) {
     $mdThemingProvider.theme('default')
       .primaryPalette('orange', { 'default' : '800'})
-      .accentPalette('green');
+      .accentPalette('teal');
 
     $routeProvider
       .when('/', {
         templateUrl: 'app/main/main.html'
+      })
+      .when('/forget', {
+        templateUrl: 'app/main/main-forget.html'
       })
       .otherwise({
         redirectTo: '/'

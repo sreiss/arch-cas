@@ -77,6 +77,24 @@ module.exports = function(userService)
             {
                 res.status(500).json({"error" : new ArchDeleteError(err.message)});
             });
+        },
+
+        /** Reset user password. */
+        resetPassword: function(req, res)
+        {
+            // Get user id.
+            var email = req.body.email;
+
+            // Delete user.
+            userService.resetPassword(email).then(function(result)
+            {
+                res.status(result ? 200 : 204).json({"count" : result ? 0 : 1, "data" : result});
+            })
+            .catch(function(err)
+            {
+                res.status(500).json({"error" : new ArchFindError(err.message)});
+            });
         }
+
     };
 };

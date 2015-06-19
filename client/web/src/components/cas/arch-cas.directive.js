@@ -104,6 +104,16 @@ angular.module('archCas').directive('archCas', function (archCasService, $mdToas
           window.location.reload();
         };
 
+        $scope.linkForget = function()
+        {
+          var params = $location.search();
+          if(params.client && params.return){
+            $location.url('/forget?client=' + params.client + '&return=' + params.return);
+          }else{
+            $location.url('/forget');
+          }
+        };
+
         $scope.login = function()
         {
           // Get query parameters.

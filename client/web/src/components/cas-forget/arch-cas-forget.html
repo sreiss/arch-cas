@@ -1,36 +1,30 @@
-<div id="arch-cas">
+<div id="arch-cas-forget">
   <md-content class="md-padding">
     <div class="title">
       <span class="title_first">{{'TITLE_WELCOME' | translate}}</span>
       <span>{{'TITLE_SERVICE' | translate}}</span>
     </div>
 
+    <p>{{'TITLE_FORGET_PASSWORD' | translate}}</p>
+
     <div ng-messages="$error">
-      <div class="ng-message-error"ng-message="init">{{'ERROR_INIT' | translate}}</div>
-      <div class="ng-message-error" ng-message="login">{{'ERROR_LOGIN' | translate}}</div>
+      <div class="ng-message-error" ng-message="email">{{'ERROR_EMAIL' | translate}}</div>
     </div>
 
     <div ng-messages="$success">
       <div class="ng-message-success" ng-message="alreadylogin">{{'ALREADY_CONNECTED' | translate}}</div>
-      <div class="ng-message-success" ng-message="login">{{'SUCCESS_LOGIN' | translate}}</div>
-      <div class="ng-message-success" ng-message="loginRedirect">{{'SUCCESS_LOGIN_REDIRECT' | translate}}</div>
+      <div class="ng-message-success" ng-message="resetPassword">{{'SUCCESS_RESET_PASSWORD' | translate}}</div>
     </div>
 
-    <form name="loginForm" ng-hide="alreadyLogged" ng-submit="login()">
+    <form name="resetForm" ng-hide="alreadyLogged" ng-submit="resetPassword()">
       <md-input-container md-no-float>
         <label>{{'INPUT_USERNAME' | translate}}</label>
         <input name="username" type="email" ng-model="username">
       </md-input-container>
       <md-input-container md-no-float>
-        <label>{{'INPUT_PASSWORD' | translate}}</label>
-        <input name="password" type="password" ng-model="password">
-      </md-input-container>
-      <md-input-container md-no-float>
-        <md-button class="md-raised md-primary login-button">{{'INPUT_LOGIN' | translate}}</md-button>
+        <md-button class="md-raised md-primary login-button">{{'SEND_NEW_PASSWORD' | translate}}</md-button>
       </md-input-container>
     </form>
-
-    <md-button ng-hide="alreadyLogged" ng-click="linkForget()">{{'FORGET_PASSWORD' | translate}}</md-button>
 
     <form name="loginForm" ng-show="alreadyLogged" ng-submit="logout()">
       <md-input-container md-no-float>
