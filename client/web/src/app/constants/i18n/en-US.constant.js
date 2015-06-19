@@ -11,6 +11,11 @@ angular.module('archCas')
     ERROR_INIT: "An error ocured while saving current client. Please, repeat the operation later.",
     ERROR_LOGIN: "The couple username / password isn't associated with any user account.",
     ALREADY_CONNECTED: "You are already connected.",
-    SUCCESS_LOGIN: "Félicitations ! Vous vous êtes connecté avec succés.",
-    SUCCESS_LOGIN_REDIRECT: "Félicitations ! Vous vous êtes connecté avec succés, vous allez être redirigé."
+    SUCCESS_LOGIN: "Congratulations! You have successfully logged in.",
+    SUCCESS_LOGIN_REDIRECT: "Congratulations! You have successfully logged in, you will be redirected.",
+    FORGET_PASSWORD: "Forgot password",
+    ERROR_EMAIL: "The username is associated with a user account.",
+    SUCCESS_RESET_PASSWORD: "A new password has been sent, you will be redirected.",
+    SEND_NEW_PASSWORD : "Send new password",
+    TITLE_FORGET_PASSWORD: "Enter your username below to get a new password."
   });
