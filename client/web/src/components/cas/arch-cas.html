@@ -16,21 +16,20 @@
       <div class="ng-message-success" ng-message="loginRedirect">{{'SUCCESS_LOGIN_REDIRECT' | translate}}</div>
     </div>
 
-    <form name="loginForm" ng-hide="alreadyLogged" ng-submit="login()">
+    <form name="loginForm" role="form" ng-hide="alreadyLogged" ng-submit="login()">
       <md-input-container md-no-float>
         <label>{{'INPUT_USERNAME' | translate}}</label>
-        <input name="username" type="email" ng-model="username">
+        <input name="username" type="email" ng-model="username" required="true">
       </md-input-container>
       <md-input-container md-no-float>
         <label>{{'INPUT_PASSWORD' | translate}}</label>
-        <input name="password" type="password" ng-model="password">
+        <input name="password" type="password" ng-model="password" required="true">
       </md-input-container>
       <md-input-container md-no-float>
-        <md-button class="md-raised md-primary login-button">{{'INPUT_LOGIN' | translate}}</md-button>
+        <md-button class="md-raised md-primary login-button" ng-disabled="loginForm.$invalid">{{'INPUT_LOGIN' | translate}}</md-button>
+        <md-button class="md-raised forget-button" ng-hide="alreadyLogged" ng-click="linkForget()">{{'FORGET_PASSWORD' | translate}}</md-button>
       </md-input-container>
     </form>
-
-    <md-button ng-hide="alreadyLogged" ng-click="linkForget()">{{'FORGET_PASSWORD' | translate}}</md-button>
 
     <form name="loginForm" ng-show="alreadyLogged" ng-submit="logout()">
       <md-input-container md-no-float>

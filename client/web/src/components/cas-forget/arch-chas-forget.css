@@ -33,6 +33,11 @@
   margin-top:20px;
 }
 
+.back-button
+{
+  margin-top:15px;
+}
+
 .ng-message-success
 {
   background-color:#8BC34A;

@@ -14,8 +14,9 @@ angular.module('archCas')
     SUCCESS_LOGIN: "Congratulations! You have successfully logged in.",
     SUCCESS_LOGIN_REDIRECT: "Congratulations! You have successfully logged in, you will be redirected.",
     FORGET_PASSWORD: "Forgot password",
-    ERROR_EMAIL: "The username is associated with a user account.",
-    SUCCESS_RESET_PASSWORD: "A new password has been sent, you will be redirected.",
-    SEND_NEW_PASSWORD : "Send new password",
-    TITLE_FORGET_PASSWORD: "Enter your username below to get a new password."
+    ERROR_EMAIL: "The username isn't associated with an account.",
+    SUCCESS_RESET_PASSWORD: "A new password has been sent to you by email.",
+    SEND_NEW_PASSWORD : "Reinitialize my password",
+    TITLE_FORGET_PASSWORD: "Enter your username below to reinitialize your password.",
+    BACK : "Back"
   });

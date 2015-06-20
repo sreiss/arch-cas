@@ -15,7 +15,8 @@ angular.module('archCas')
     SUCCESS_LOGIN_REDIRECT: "Félicitations ! Vous vous êtes connecté avec succés, vous allez être redirigé.",
     FORGET_PASSWORD: "Mot de passe oublié",
     ERROR_EMAIL: "L'identifiant n'est associé à aucun compte utilisateur.",
-    SUCCESS_RESET_PASSWORD: "Un nouveau mot de passe a été envoyé, vous allez être redirigé.",
-    SEND_NEW_PASSWORD : "Envoyer un nouveau mot de passe",
-    TITLE_FORGET_PASSWORD: "Entrez votre identifiant ci dessous pour obtenir un nouveau mot de passe."
+    SUCCESS_RESET_PASSWORD: "Un nouveau mot de passe vient de vous être envoyé par email.",
+    SEND_NEW_PASSWORD : "Réinitialiser mon mot de passe",
+    TITLE_FORGET_PASSWORD: "Entrez votre identifiant ci-dessous pour réinitialiser votre mot de passe.",
+    BACK : "Retour"
   });

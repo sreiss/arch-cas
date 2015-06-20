@@ -226,7 +226,7 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
             {
                 from: config.get('mail:noreply'),
                 to: user.email,
-                subject: 'CAS - Inscription réussie ✔',
+                subject: 'archCas | Inscription réussie ✔',
                 html:   'Bonjour ' + user.fname + ' ' + user.lname + ',<br><br>' +
                         'Votre compte a été créé avec succés.<br>' +
                         'Veuillez trouver ci-dessous le récapitulatif de vos identifiants.<br><br>' +
@@ -268,7 +268,7 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
             {
                 from: config.get('mail:noreply'),
                 to: user.email,
-                subject: 'CAS - Nouveau mot de passe',
+                subject: 'archCas | Réinitialisation de votre mot de passe ✔',
                 html:   'Bonjour ' + user.fname + ' ' + user.lname + ',<br><br>' +
                 'Veuillez trouver ci-dessous le récapitulatif de vos nouveaux identifiants.<br><br>' +
                 '- Identifiant : ' + user.username + '<br>' +
@@ -289,6 +289,5 @@ module.exports = function(User, Client, userService, signuptypeService, config) 
                 }
             });
         }
-
     };
 };
