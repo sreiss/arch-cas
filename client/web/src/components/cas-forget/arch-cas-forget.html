@@ -19,7 +19,7 @@
     <form name="resetForm" ng-hide="alreadyLogged" ng-submit="resetPassword()">
       <md-input-container md-no-float>
         <label>{{'INPUT_USERNAME' | translate}}</label>
-        <input name="username" type="email" ng-model="username">
+        <input name="username" type="email" ng-model="username" required="true">
       </md-input-container>
       <md-input-container md-no-float>
         <md-button class="md-raised md-primary login-button">{{'SEND_NEW_PASSWORD' | translate}}</md-button>
