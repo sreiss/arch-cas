@@ -17,7 +17,7 @@ module.exports = function(User, Signuptype) {
             var signuptype = new Signuptype();
             signuptype.name = signuptypeData.name;
             signuptype.description = signuptypeData.description;
-            signuptype.isPublic = signuptypeData.isPublic || 0;
+            signuptype.isPublic = signuptypeData.isPublic || false;
 
             signuptype.save().exec(function(err, signuptype)
             {
