@@ -18,5 +18,7 @@ angular.module('archCas')
     SUCCESS_RESET_PASSWORD: "Un nouveau mot de passe vient de vous être envoyé par email.",
     SEND_NEW_PASSWORD : "Réinitialiser mon mot de passe",
     TITLE_FORGET_PASSWORD: "Entrez votre identifiant ci-dessous pour réinitialiser votre mot de passe.",
-    BACK : "Retour"
+    BACK : "Retour",
+    COPYRIGHT_DEVTEAM : "ArchTailors",
+    COPYRIGHT_ALL_RIGHTS_RESERVED : " - 2015 - Tous droits réservés."
   });

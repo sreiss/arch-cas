@@ -12,3 +12,19 @@
   background-size: cover;
   position:relative;
 }
+
+#footer
+{
+  text-align:center;
+  font-size:14px;
+}
+
+#footer a
+{
+  color:#009688;
+}
+
+#footer p
+{
+  margin:0px;
+}
